@@ -64,7 +64,7 @@ func (h *HandlerBasedOnTree) findMatchChild(root *Node,
 	path string) (*Node, bool) {
 	var wildcardNode *Node
 	for _, child := range root.children {
-		if child.path == path || child.path != "*" {
+		if child.path == path && child.path != "*" {
 			return child, true
 		}
 		if child.path == "*" {
@@ -75,9 +75,11 @@ func (h *HandlerBasedOnTree) findMatchChild(root *Node,
 }
 
 type Node struct {
-	path     string
-	children []*Node
-	handler  handlerFunc
+	path string
+
+	children  []*Node
+	handler   handlerFunc
+	matchFunc handlerFunc
 }
 
 func (h *Node) findMatchChild(path string) (*Node, bool) {
